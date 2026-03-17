@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Rescue Craft - Selector</title>
+
+    <!-- Google Fonts: Arabic + Industrial Gaming -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-dark: #1C1917;
+            --secondary-dark: #44403C;
+            --gold-accent: #CA8A04;
+            --gold-light: #FDE047;
+            --gold-shine: #FACC15;
+            --bg-light: #FAFAF9;
+            --text-dark: #0C0A09;
+            --neon-blue: #00F0FF;
+            --neon-pink: #FF00FF;
+            --neon-green: #39FF14;
+            --holographic: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans Arabic', 'Orbitron', sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--bg-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Islamic Geometric Pattern Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(202, 138, 4, 0.03) 35px, rgba(202, 138, 4, 0.03) 70px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(0, 240, 255, 0.02) 35px, rgba(0, 240, 255, 0.02) 70px);
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        /* CRT Scanlines Effect - Optimized (static) */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.08),
+                rgba(0, 0, 0, 0.08) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Header with Neon Glow */
+        .header {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+            position: relative;
+        }
+
+        .main-title {
+            font-family: 'Orbitron', 'Noto Naskh Arabic', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-accent), var(--gold-shine));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(202, 138, 4, 0.7));
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-family: 'Orbitron', 'Noto Sans Arabic', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            font-weight: 600;
+            color: var(--neon-blue);
+            text-shadow:
+                0 0 15px rgba(0, 240, 255, 1),
+                0 0 30px rgba(0, 240, 255, 0.6),
+                0 2px 5px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.25em;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            .grid-layout {
+                grid-template-columns: 1.2fr 1fr;
+            }
+        }
+
+        /* Mario Kart Style Selection Cards */
+        .section-panel {
+            background: linear-gradient(135deg, rgba(68, 64, 60, 0.4), rgba(28, 25, 23, 0.6));
+            border: 2px solid rgba(202, 138, 4, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            backdrop-filter: blur(10px);
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .section-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 18px;
+            padding: 2px;
+            background: var(--holographic);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .section-panel:hover::before {
+            opacity: 0.4;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold-accent);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--gold-accent);
+            text-shadow: 0 0 15px rgba(202, 138, 4, 0.6);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .choice-label {
+            display: block;
+            font-family: 'Noto Sans Arabic', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: rgba(253, 224, 71, 0.8);
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Mario Kart Style Card Grid */
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .choice-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .choice-card {
+            position: relative;
+            background: linear-gradient(135deg, rgba(68, 64, 60, 0.6), rgba(28, 25, 23, 0.8));
+            border: 3px solid rgba(202, 138, 4, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+            will-change: transform, border-color, box-shadow;
+        }
+
+        /* Metallic Shine Effect - Optimized */
+        .choice-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .choice-card:hover::before {
+            opacity: 1;
+        }
+
+        .choice-card:hover {
+            border-color: var(--gold-accent);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.7),
+                0 0 30px rgba(202, 138, 4, 0.4),
+                inset 0 0 20px rgba(202, 138, 4, 0.1);
+        }
+
+        .choice-card.selected {
+            border-color: var(--gold-accent);
+            border-width: 4px;
+            background: linear-gradient(135deg, rgba(202, 138, 4, 0.3), rgba(68, 64, 60, 0.6));
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.8),
+                0 0 40px rgba(202, 138, 4, 0.6),
+                0 0 80px rgba(202, 138, 4, 0.3),
+                inset 0 0 30px rgba(202, 138, 4, 0.2);
+            transform: translateY(-12px) scale(1.08);
+        }
+
+        .choice-card.selected::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, rgba(202, 138, 4, 0.4), rgba(253, 224, 71, 0.3));
+            border-radius: 13px;
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        .choice-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.75rem;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+            transition: transform 0.2s ease;
+        }
+
+        .choice-card:hover .choice-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .choice-card.selected .choice-icon {
+            animation: iconBounce 0.6s ease;
+        }
+
+        @keyframes iconBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2) rotate(10deg); }
+        }
+
+        .choice-name {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--bg-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .choice-card.selected .choice-name {
+            color: var(--gold-light);
+            text-shadow: 0 0 10px rgba(202, 138, 4, 0.8);
+        }
+
+        /* Mario Kart Style Stat Bars */
+        .stats-panel {
+            background: linear-gradient(135deg, rgba(68, 64, 60, 0.5), rgba(28, 25, 23, 0.7));
+            border: 2px solid rgba(202, 138, 4, 0.4);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--bg-light);
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--gold-accent);
+            text-shadow: 0 0 10px rgba(202, 138, 4, 0.6);
+            min-width: 50px;
+            text-align: right;
+        }
+
+        /* Mario Kart Style Bar Container */
+        .bar-container {
+            position: relative;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(90deg, rgba(28, 25, 23, 0.8), rgba(68, 64, 60, 0.6));
+            border: 2px solid rgba(202, 138, 4, 0.4);
+            border-radius: 15px;
+            overflow: visible;
+            box-shadow:
+                inset 0 4px 8px rgba(0, 0, 0, 0.6),
+                0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Metallic Bar Fill with Gradient */
+        .bar-fill {
+            position: relative;
+            height: 100%;
+            width: 0%;
+            border-radius: 13px;
+            transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow:
+                0 0 20px currentColor,
+                inset 0 2px 4px rgba(255, 255, 255, 0.3),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            will-change: width;
+        }
+
+        .bar-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2) 50%,
+                transparent
+            );
+        }
+
+        /* Speed Bar - Red Metallic */
+        #bar-vitesse {
+            background: linear-gradient(90deg, #ff416c 0%, #ff4b2b 50%, #ff6b9d 100%);
+            color: #ff416c;
+        }
+
+        /* Stability Bar - Green Metallic */
+        #bar-stabilite {
+            background: linear-gradient(90deg, #00b09b 0%, #96c93d 50%, #4ade80 100%);
+            color: #00b09b;
+        }
+
+        /* Autonomy Bar - Orange Metallic */
+        #bar-autonomie {
+            background: linear-gradient(90deg, #f7b733 0%, #fc4a1a 50%, #fcd34d 100%);
+            color: #f7b733;
+        }
+
+        /* Capacity Bar - Blue Metallic */
+        #bar-capacite {
+            background: linear-gradient(90deg, #36D1DC 0%, #5B86E5 50%, #00F0FF 100%);
+            color: #36D1DC;
+        }
+
+        /* 3D Viewer Panel */
+        .viewer-panel {
+            position: relative;
+        }
+
+        .viewer-wrapper {
+            width: 100%;
+            height: 600px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(28, 25, 23, 0.9), rgba(68, 64, 60, 0.7));
+            border: 3px solid rgba(202, 138, 4, 0.5);
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.8),
+                inset 0 0 40px rgba(202, 138, 4, 0.1);
+            position: relative;
+        }
+
+        .viewer-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(202, 138, 4, 0.1), transparent 70%);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* CSS 3D Boat Visualization with Ocean */
+        .boat-3d-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1200px;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        /* Ocean Water Surface - Repositionné plus bas */
+        .ocean-surface {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 35%;
+            background: linear-gradient(180deg,
+                rgba(0, 119, 182, 0.5) 0%,
+                rgba(0, 84, 147, 0.7) 50%,
+                rgba(0, 59, 113, 0.9) 100%);
+            z-index: 1;
+            border-top: 3px solid rgba(0, 240, 255, 0.4);
+        }
+
+        /* Animated Waves - Plus visibles */
+        .wave {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            width: 200%;
+            height: 60px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q300,10 600,50 T1200,50 L1200,120 L0,120 Z" fill="rgba(0,240,255,0.3)"/></svg>') repeat-x;
+            background-size: 600px 60px;
+            animation: waveMove 8s linear infinite;
+            opacity: 0.8;
+        }
+
+        .wave:nth-child(2) {
+            top: -20px;
+            animation: waveMove 6s linear infinite reverse;
+            opacity: 0.5;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,60 Q300,20 600,60 T1200,60 L1200,120 L0,120 Z" fill="rgba(202,138,4,0.2)"/></svg>') repeat-x;
+            background-size: 600px 60px;
+        }
+
+        @keyframes waveMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-600px); }
+        }
+
+        .boat-3d {
+            width: 400px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(330deg) rotateX(15deg) translateY(20px);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            animation: boatFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+        }
+
+        /* Floating animation - Le bateau touche l'eau */
+        @keyframes boatFloat {
+            0%, 100% { transform: rotateY(330deg) rotateX(15deg) translateY(20px); }
+            50% { transform: rotateY(330deg) rotateX(15deg) translateY(10px); }
+        }
+
+        /* Navigation course animation - Bateau qui touche l'eau */
+        .boat-3d.sailing {
+            animation: boatSail 12s ease-in-out infinite, boatFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes boatSail {
+            0% { transform: rotateY(330deg) rotateX(15deg) translateX(-150px) translateY(20px); }
+            25% { transform: rotateY(350deg) rotateX(15deg) translateX(0px) translateY(10px); }
+            50% { transform: rotateY(330deg) rotateX(15deg) translateX(150px) translateY(20px); }
+            75% { transform: rotateY(310deg) rotateX(15deg) translateX(0px) translateY(10px); }
+            100% { transform: rotateY(330deg) rotateX(15deg) translateX(-150px) translateY(20px); }
+        }
+
+        /* Sinking animation - Le bateau descend dans l'eau */
+        .boat-3d.sinking {
+            animation: boatSink 5s ease-in forwards;
+        }
+
+        @keyframes boatSink {
+            0% {
+                transform: rotateY(330deg) rotateX(15deg) translateY(20px) rotateZ(0deg);
+                opacity: 1;
+                filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+            }
+            20% {
+                transform: rotateY(330deg) rotateX(15deg) translateY(40px) rotateZ(-3deg);
+                opacity: 1;
+            }
+            40% {
+                transform: rotateY(330deg) rotateX(15deg) translateY(100px) rotateZ(-8deg);
+                opacity: 0.9;
+                filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+            }
+            70% {
+                transform: rotateY(330deg) rotateX(25deg) translateY(250px) rotateZ(-18deg);
+                opacity: 0.5;
+                filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+            }
+            100% {
+                transform: rotateY(330deg) rotateX(35deg) translateY(500px) rotateZ(-30deg);
+                opacity: 0;
+                filter: drop-shadow(0 0 0 transparent);
+            }
+        }
+
+        /* Warning wobble for unstable boat */
+        .boat-3d.unstable {
+            animation: boatWobble 0.5s ease-in-out infinite, boatFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes boatWobble {
+            0%, 100% { transform: rotateY(330deg) rotateX(15deg) translateY(20px) rotateZ(-4deg); }
+            50% { transform: rotateY(330deg) rotateX(15deg) translateY(20px) rotateZ(4deg); }
+        }
+
+        /* Hover to rotate slowly - Désactivé pour ne pas interférer avec les animations */
+        .boat-3d:hover:not(.sinking):not(.sailing):not(.unstable) {
+            transform: rotateY(390deg) rotateX(15deg) translateY(20px);
+        }
+
+        /* Hull (Coque) - Blanc nautique uniforme pour toutes les coques */
+        .boat-hull {
+            position: absolute;
+            width: 100%;
+            height: 150px;
+            bottom: 50px;
+            left: 0;
+            background: linear-gradient(135deg, #E5E7EB, #F9FAFB, #FFFFFF, #F9FAFB, #E5E7EB);
+            border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+            transform: translateZ(0);
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.7),
+                inset 0 -25px 50px rgba(0, 0, 0, 0.4),
+                inset 0 15px 30px rgba(255, 255, 255, 0.5);
+            border: 3px solid #9CA3AF;
+        }
+
+        /* Bande de couleur accent sur la coque */
+        .boat-hull::before {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 30px;
+            top: 40%;
+            left: 5%;
+            background: linear-gradient(90deg, transparent, rgba(202, 138, 4, 0.6), transparent);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(202, 138, 4, 0.4);
+        }
+
+        /* Deck - Plus visible */
+        .boat-deck {
+            position: absolute;
+            width: 90%;
+            height: 25px;
+            bottom: 180px;
+            left: 5%;
+            background: linear-gradient(90deg, #44403C, #78716C, #44403C);
+            border-radius: 12px;
+            transform: translateZ(20px);
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.6),
+                inset 0 -3px 8px rgba(0, 0, 0, 0.4),
+                inset 0 3px 8px rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(28, 25, 23, 0.8);
+        }
+
+        /* Cabin/Tower - Plus contrastée */
+        .boat-cabin {
+            position: absolute;
+            width: 130px;
+            height: 90px;
+            bottom: 205px;
+            left: 50%;
+            margin-left: -65px;
+            background: linear-gradient(135deg, #1C1917, #44403C, #1C1917);
+            border-radius: 12px 12px 6px 6px;
+            transform: translateZ(40px);
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.7),
+                inset 0 8px 15px rgba(255, 255, 255, 0.15),
+                inset 0 -8px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(202, 138, 4, 0.4);
+            transition: all 0.6s ease;
+        }
+
+        /* Windows on cabin - Plus brillantes */
+        .boat-cabin::before {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 45%;
+            top: 25%;
+            left: 10%;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.6), rgba(0, 200, 255, 0.8));
+            border-radius: 6px;
+            box-shadow:
+                inset 0 0 15px rgba(0, 240, 255, 0.8),
+                0 0 20px rgba(0, 240, 255, 0.4);
+            border: 1px solid rgba(0, 240, 255, 0.5);
+        }
+
+        /* Equipment on top - Plus grand et visible */
+        .boat-equipment {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            bottom: 295px;
+            left: 50%;
+            margin-left: -30px;
+            transform: translateZ(60px);
+            transition: all 0.6s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.6));
+        }
+
+        /* Standard Hull Style */
+        .boat-3d.standard .boat-hull {
+            border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+            height: 150px;
+        }
+
+        .boat-3d.standard .boat-cabin {
+            width: 120px;
+            height: 80px;
+        }
+
+        /* Catamaran Style - Wider, Dual Hull - Blanc comme les autres */
+        .boat-3d.catamaran .boat-hull {
+            border-radius: 40% 40% 30% 30%;
+            height: 130px;
+            /* Garde le même blanc que standard */
+        }
+
+        .boat-3d.catamaran .boat-hull::before {
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.6), transparent);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .boat-3d.catamaran .boat-hull::after {
+            content: '';
+            position: absolute;
+            width: 40%;
+            height: 100%;
+            top: 0;
+            left: 55%;
+            background: linear-gradient(135deg, #E5E7EB, #F9FAFB, #FFFFFF, #F9FAFB, #E5E7EB);
+            border-radius: 40% 40% 30% 30%;
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.7),
+                inset 0 -25px 50px rgba(0, 0, 0, 0.4),
+                inset 0 15px 30px rgba(255, 255, 255, 0.5);
+            border: 3px solid #9CA3AF;
+        }
+
+        .boat-3d.catamaran .boat-cabin {
+            width: 200px;
+            height: 110px;
+            margin-left: -100px;
+        }
+
+        /* Semi-Rigide (Zodiac) Style - Sleek & Fast - Blanc aussi */
+        .boat-3d.semirigide .boat-hull {
+            border-radius: 60% 60% 15% 15% / 70% 70% 30% 30%;
+            height: 110px;
+            /* Garde le même blanc */
+        }
+
+        .boat-3d.semirigide .boat-hull::before {
+            background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.6), transparent);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .boat-3d.semirigide .boat-cabin {
+            width: 90px;
+            height: 70px;
+            margin-left: -45px;
+            bottom: 165px;
+        }
+
+        /* Motor/Engine - Beaucoup plus visible à l'arrière du bateau */
+        .boat-motor {
+            position: absolute;
+            width: 80px;
+            height: 100px;
+            bottom: 20px;
+            left: 50%;
+            margin-left: -40px;
+            transform: translateZ(-50px);
+            border-radius: 8px 8px 15px 15px;
+            transition: all 0.6s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 10px;
+        }
+
+        /* Moteur Thermique - Rouge/Orange avec flammes */
+        .boat-3d.thermique .boat-motor {
+            background: linear-gradient(180deg, #7C2D12, #DC2626, #EF4444);
+            border: 3px solid #991B1B;
+            box-shadow:
+                0 0 40px rgba(239, 68, 68, 0.8),
+                inset 0 -10px 20px rgba(255, 100, 100, 0.4);
+        }
+
+        .boat-3d.thermique .boat-motor::before {
+            content: '🔥';
+            font-size: 2rem;
+            position: absolute;
+            bottom: -15px;
+            animation: flame 0.3s ease-in-out infinite alternate;
+        }
+
+        @keyframes flame {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.2) translateY(-5px); }
+        }
+
+        /* Moteur Électrique - Bleu cyan avec éclairs */
+        .boat-3d.electrique .boat-motor {
+            background: linear-gradient(180deg, #0C4A6E, #0EA5E9, #38BDF8);
+            border: 3px solid #075985;
+            box-shadow:
+                0 0 40px rgba(14, 165, 233, 0.8),
+                inset 0 -10px 20px rgba(56, 189, 248, 0.4);
+        }
+
+        .boat-3d.electrique .boat-motor::before {
+            content: '⚡';
+            font-size: 2.5rem;
+            position: absolute;
+            bottom: -15px;
+            animation: electric 0.6s ease-in-out infinite;
+        }
+
+        @keyframes electric {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        /* Moteur Hybride - Or/Vert avec double effet */
+        .boat-3d.hybride .boat-motor {
+            background: linear-gradient(180deg, #854D0E, #CA8A04, #EAB308);
+            border: 3px solid #713F12;
+            box-shadow:
+                0 0 40px rgba(234, 179, 8, 0.8),
+                inset 0 -10px 20px rgba(250, 204, 21, 0.4);
+        }
+
+        .boat-3d.hybride .boat-motor::before {
+            content: '⚡🔥';
+            font-size: 2rem;
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: hybridPulse 0.8s ease-in-out infinite;
+        }
+
+        @keyframes hybridPulse {
+            0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+        }
+
+        /* Equipment Styles - Utilisation directe du contenu */
+        .boat-equipment.filet::before {
+            content: '🕸️';
+        }
+
+        .boat-equipment.grue::before {
+            content: '🏗️';
+        }
+
+        .boat-equipment.drone::before {
+            content: '🚁';
+            animation: droneHover 2s ease-in-out infinite;
+        }
+
+        @keyframes droneHover {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .viewer-hint {
+            margin-top: 1rem;
+            text-align: center;
+            font-family: 'Noto Sans Arabic', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(253, 224, 71, 0.7);
+            text-shadow: 0 0 10px rgba(202, 138, 4, 0.3);
+        }
+
+        /* Status Alert Box */
+        .boat-status-alert {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .boat-status-alert.success {
+            display: block;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(5, 150, 105, 0.4));
+            border: 2px solid rgba(16, 185, 129, 0.6);
+            color: #6EE7B7;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .boat-status-alert.warning {
+            display: block;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(217, 119, 6, 0.4));
+            border: 2px solid rgba(245, 158, 11, 0.6);
+            color: #FCD34D;
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .boat-status-alert.danger {
+            display: block;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.4), rgba(220, 38, 38, 0.5));
+            border: 2px solid rgba(239, 68, 68, 0.8);
+            color: #FCA5A5;
+            text-shadow: 0 0 10px rgba(239, 68, 68, 1);
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+            animation: pulse 0.8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.02); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .section-panel {
+                padding: 1.5rem;
+            }
+
+            .choice-grid {
+                gap: 0.75rem;
+            }
+
+            .viewer-wrapper {
+                height: 400px;
+            }
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            body::after {
+                animation: none;
+            }
+
+            .choice-card.selected::after {
+                animation: none;
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Optimized - No heavy animation on selected cards */
+        .choice-card.selected {
+            will-change: transform;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1 class="main-title">Elite Rescue Fleet</h1>
+        <p class="subtitle">Configurateur Avancé</p>
+    </header>
+
+    <div class="container">
+        <div class="grid-layout">
+
+            <!-- Left Column: Configuration + Stats -->
+            <div>
+                <!-- Configuration Panel -->
+                <div class="section-panel">
+                    <h2 class="section-title">⚡ Arsenal de Sauvetage</h2>
+
+                    <label class="choice-label">Type de Châssis (Coque)</label>
+                    <div class="choice-grid" id="coque">
+                        <div class="choice-card" data-value="standard">
+                            <div class="choice-icon">🚤</div>
+                            <span class="choice-name">Standard</span>
+                        </div>
+                        <div class="choice-card" data-value="catamaran">
+                            <div class="choice-icon">⛵</div>
+                            <span class="choice-name">Catamaran</span>
+                        </div>
+                        <div class="choice-card" data-value="semirigide">
+                            <div class="choice-icon">🛥️</div>
+                            <span class="choice-name">Zodiac</span>
+                        </div>
+                    </div>
+
+                    <label class="choice-label">Propulsion</label>
+                    <div class="choice-grid" id="moteur">
+                        <div class="choice-card" data-value="thermique">
+                            <div class="choice-icon">⛽</div>
+                            <span class="choice-name">Thermique V8</span>
+                        </div>
+                        <div class="choice-card" data-value="electrique">
+                            <div class="choice-icon">⚡</div>
+                            <span class="choice-name">Électrique</span>
+                        </div>
+                        <div class="choice-card" data-value="hybride">
+                            <div class="choice-icon">🔋</div>
+                            <span class="choice-name">Hybride</span>
+                        </div>
+                    </div>
+
+                    <label class="choice-label">Module Spécial</label>
+                    <div class="choice-grid" id="equipement">
+                        <div class="choice-card" data-value="filet">
+                            <div class="choice-icon">🕸️</div>
+                            <span class="choice-name">Filet Auto</span>
+                        </div>
+                        <div class="choice-card" data-value="grue">
+                            <div class="choice-icon">🏗️</div>
+                            <span class="choice-name">Grue Lourde</span>
+                        </div>
+                        <div class="choice-card" data-value="drone">
+                            <div class="choice-icon">🚁</div>
+                            <span class="choice-name">Drone Radar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Panel -->
+                <div class="section-panel stats-panel" style="margin-top: 2rem;">
+                    <h2 class="section-title">📊 Performances</h2>
+
+                    <div class="stat-group">
+                        <div class="stat-header">
+                            <span class="stat-label">Vitesse Max</span>
+                            <span class="stat-value" id="val-vitesse">0</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" id="bar-vitesse"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-group">
+                        <div class="stat-header">
+                            <span class="stat-label">Stabilité</span>
+                            <span class="stat-value" id="val-stabilite">0</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" id="bar-stabilite"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-group">
+                        <div class="stat-header">
+                            <span class="stat-label">Autonomie</span>
+                            <span class="stat-value" id="val-autonomie">0</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" id="bar-autonomie"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-group">
+                        <div class="stat-header">
+                            <span class="stat-label">Capacité</span>
+                            <span class="stat-value" id="val-capacite">0</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" id="bar-capacite"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: 3D Viewer -->
+            <div class="section-panel viewer-panel">
+                <h2 class="section-title">🕶️ Aperçu 3D</h2>
+                <div class="viewer-wrapper">
+                    <div class="boat-3d-container">
+                        <!-- Ocean Surface -->
+                        <div class="ocean-surface">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                        <!-- Boat -->
+                        <div class="boat-3d standard thermique sailing" id="boat-3d">
+                            <div class="boat-hull"></div>
+                            <div class="boat-deck"></div>
+                            <div class="boat-cabin"></div>
+                            <div class="boat-motor"></div>
+                            <div class="boat-equipment filet"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="boat-status-alert success" id="boat-status">
+                    ✅ Configuration stable - Navigation en cours
+                </div>
+                <p class="viewer-hint">✨ Stabilité ≥35: Navigue | 25-34: Instable | &lt;25: Coule</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Data structure (unchanged)
+        const data = {
+            coque: {
+                standard:   { vitesse: 50, stabilite: 50, autonomie: 40, capacite: 50 },
+                catamaran:  { vitesse: 35, stabilite: 85, autonomie: 30, capacite: 70 },
+                semirigide: { vitesse: 75, stabilite: 30, autonomie: 35, capacite: 30 }
+            },
+            moteur: {
+                thermique:  { vitesse: 20, stabilite: -5,  autonomie: 40, capacite: 0 },
+                electrique: { vitesse: -10, stabilite: 10,  autonomie: -15, capacite: 5 },
+                hybride:    { vitesse: 5,  stabilite: 0,   autonomie: 20, capacite: 0 }
+            },
+            equipement: {
+                filet:      { vitesse: 0,   stabilite: 0,   autonomie: 0,   capacite: 10 },
+                grue:       { vitesse: -15, stabilite: -15, autonomie: -10, capacite: 20 },
+                drone:      { vitesse: -5,  stabilite: 0,   autonomie: -5,  capacite: 5 }
+            }
+        };
+
+        function updateBoatAndStats() {
+            const coqueChoice = document.querySelector('#coque .selected')?.dataset.value;
+            const moteurChoice = document.querySelector('#moteur .selected')?.dataset.value;
+            const equipementChoice = document.querySelector('#equipement .selected')?.dataset.value;
+
+            if (!coqueChoice || !moteurChoice || !equipementChoice) return;
+
+            // Calculate all stats first
+            const stats = ['vitesse', 'stabilite', 'autonomie', 'capacite'];
+            const calculatedStats = {};
+
+            stats.forEach(stat => {
+                let total = data.coque[coqueChoice][stat] +
+                            data.moteur[moteurChoice][stat] +
+                            data.equipement[equipementChoice][stat];
+
+                total = Math.max(0, Math.min(100, total));
+                calculatedStats[stat] = total;
+
+                const barElement = document.getElementById(`bar-${stat}`);
+                const valueElement = document.getElementById(`val-${stat}`);
+
+                // Animate value counter
+                const currentValue = parseInt(valueElement.textContent) || 0;
+                animateValue(valueElement, currentValue, total, 500);
+
+                // Animate bar width
+                setTimeout(() => {
+                    barElement.style.width = `${total}%`;
+                }, 50);
+            });
+
+            // Update 3D Boat visualization
+            const boat3D = document.getElementById('boat-3d');
+            const boatEquipment = boat3D.querySelector('.boat-equipment');
+            const boatStatus = document.getElementById('boat-status');
+
+            // Update hull type
+            boat3D.className = `boat-3d ${coqueChoice} ${moteurChoice}`;
+
+            // Update equipment
+            boatEquipment.className = `boat-equipment ${equipementChoice}`;
+
+            // Check stability and update boat behavior
+            const stabilite = calculatedStats.stabilite;
+
+            // Reset classes first
+            boat3D.classList.remove('sailing', 'sinking', 'unstable');
+            boatStatus.className = 'boat-status-alert';
+
+            if (stabilite < 15) {
+                // Critical: Boat sinks immediately
+                boat3D.classList.add('sinking');
+                boatStatus.classList.add('danger');
+                boatStatus.innerHTML = `🚨 DANGER CRITIQUE ! Stabilité: ${stabilite} - Le bateau coule !`;
+            } else if (stabilite < 25) {
+                // Warning: Boat is unstable and will sink
+                boat3D.classList.add('sinking');
+                boatStatus.classList.add('danger');
+                boatStatus.innerHTML = `⚠️ TROP INSTABLE ! Stabilité: ${stabilite} - Le bateau coule...`;
+            } else if (stabilite < 35) {
+                // Unstable but floating
+                boat3D.classList.add('unstable');
+                boatStatus.classList.add('warning');
+                boatStatus.innerHTML = `⚠️ ATTENTION ! Stabilité: ${stabilite} - Configuration instable`;
+            } else {
+                // Good configuration - sailing
+                boat3D.classList.add('sailing');
+                boatStatus.classList.add('success');
+                boatStatus.innerHTML = `✅ STABLE ! Stabilité: ${stabilite} - Navigation en cours`;
+            }
+        }
+
+        function animateValue(element, start, end, duration) {
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.round(current);
+            }, 16);
+        }
+
+        function setupChoiceListeners() {
+            const choiceGrids = document.querySelectorAll('.choice-grid');
+            choiceGrids.forEach(grid => {
+                // Select first card by default
+                const firstCard = grid.firstElementChild;
+                if (firstCard) {
+                    firstCard.classList.add('selected');
+                }
+
+                // Add click listeners
+                grid.addEventListener('click', (event) => {
+                    const clickedCard = event.target.closest('.choice-card');
+                    if (!clickedCard) return;
+
+                    // Remove selection from siblings
+                    const siblings = grid.querySelectorAll('.choice-card');
+                    siblings.forEach(card => card.classList.remove('selected'));
+
+                    // Add selection to clicked card
+                    clickedCard.classList.add('selected');
+
+                    // Update boat and stats
+                    updateBoatAndStats();
+                });
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setupChoiceListeners();
+            updateBoatAndStats();
+        });
+    </script>
+
+</body>
+</html>
