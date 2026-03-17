@@ -40,6 +40,16 @@
             position: relative;
         }
 
+        /* Cacher le contenu principal par défaut */
+        body > *:not(.password-overlay) {
+            opacity: 0;
+            transition: opacity 0.5s ease 0.3s;
+        }
+
+        body.unlocked > *:not(.password-overlay) {
+            opacity: 1;
+        }
+
         /* Islamic Geometric Pattern Background */
         body::before {
             content: '';
@@ -49,8 +59,8 @@
             width: 100%;
             height: 100%;
             background-image:
-                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(202, 138, 4, 0.03) 35px, rgba(202, 138, 4, 0.03) 70px),
-                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(0, 240, 255, 0.02) 35px, rgba(0, 240, 255, 0.02) 70px);
+                    repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(202, 138, 4, 0.03) 35px, rgba(202, 138, 4, 0.03) 70px),
+                    repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(0, 240, 255, 0.02) 35px, rgba(0, 240, 255, 0.02) 70px);
             z-index: -1;
             opacity: 0.4;
         }
@@ -64,11 +74,11 @@
             width: 100%;
             height: 100%;
             background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.08),
-                rgba(0, 0, 0, 0.08) 1px,
-                transparent 1px,
-                transparent 2px
+                    0deg,
+                    rgba(0, 0, 0, 0.08),
+                    rgba(0, 0, 0, 0.08) 1px,
+                    transparent 1px,
+                    transparent 2px
             );
             pointer-events: none;
             z-index: 1000;
@@ -79,6 +89,66 @@
             text-align: center;
             padding: 2rem 1rem 1rem;
             position: relative;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(220, 38, 38, 0.4));
+            border: 2px solid rgba(239, 68, 68, 0.6);
+            border-radius: 10px;
+            color: #FCA5A5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logout-btn.show {
+            display: inline-flex;
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.5), rgba(220, 38, 38, 0.6));
+            border-color: rgba(239, 68, 68, 0.8);
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .logout-btn:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .logout-btn {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.6rem 1rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logout-btn {
+                position: static;
+                margin: 0 auto 1rem;
+                display: none;
+            }
+
+            .logout-btn.show {
+                display: inline-flex;
+            }
         }
 
         .main-title {
@@ -101,9 +171,9 @@
             font-weight: 600;
             color: var(--neon-blue);
             text-shadow:
-                0 0 15px rgba(0, 240, 255, 1),
-                0 0 30px rgba(0, 240, 255, 0.6),
-                0 2px 5px rgba(0, 0, 0, 0.8);
+                    0 0 15px rgba(0, 240, 255, 1),
+                    0 0 30px rgba(0, 240, 255, 0.6),
+                    0 2px 5px rgba(0, 0, 0, 0.8);
             letter-spacing: 0.25em;
             margin-bottom: 2rem;
             text-transform: uppercase;
@@ -114,17 +184,31 @@
             max-width: 1600px;
             margin: 0 auto;
             padding: 0 1rem 3rem;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 2rem 3rem;
+            }
         }
 
         .grid-layout {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 2rem;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid-layout {
+                gap: 2rem;
+            }
         }
 
         @media (min-width: 1024px) {
             .grid-layout {
                 grid-template-columns: 1.2fr 1fr;
+                gap: 2rem;
             }
         }
 
@@ -137,8 +221,8 @@
             position: relative;
             backdrop-filter: blur(10px);
             box-shadow:
-                0 10px 40px rgba(0, 0, 0, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                    0 10px 40px rgba(0, 0, 0, 0.6),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .section-panel::before {
@@ -207,11 +291,7 @@
             margin-bottom: 1.5rem;
         }
 
-        @media (min-width: 640px) {
-            .choice-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
+        /* Grid par défaut : 3 colonnes sur tous les écrans */
 
         .choice-card {
             position: relative;
@@ -229,6 +309,9 @@
             backdrop-filter: blur(5px);
             overflow: hidden;
             will-change: transform, border-color, box-shadow;
+            min-height: 120px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Metallic Shine Effect - Optimized */
@@ -240,10 +323,10 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.1),
-                transparent
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1),
+                    transparent
             );
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -257,9 +340,9 @@
             border-color: var(--gold-accent);
             transform: translateY(-8px) scale(1.05);
             box-shadow:
-                0 15px 35px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(202, 138, 4, 0.4),
-                inset 0 0 20px rgba(202, 138, 4, 0.1);
+                    0 15px 35px rgba(0, 0, 0, 0.7),
+                    0 0 30px rgba(202, 138, 4, 0.4),
+                    inset 0 0 20px rgba(202, 138, 4, 0.1);
         }
 
         .choice-card.selected {
@@ -267,10 +350,10 @@
             border-width: 4px;
             background: linear-gradient(135deg, rgba(202, 138, 4, 0.3), rgba(68, 64, 60, 0.6));
             box-shadow:
-                0 20px 50px rgba(0, 0, 0, 0.8),
-                0 0 40px rgba(202, 138, 4, 0.6),
-                0 0 80px rgba(202, 138, 4, 0.3),
-                inset 0 0 30px rgba(202, 138, 4, 0.2);
+                    0 20px 50px rgba(0, 0, 0, 0.8),
+                    0 0 40px rgba(202, 138, 4, 0.6),
+                    0 0 80px rgba(202, 138, 4, 0.3),
+                    inset 0 0 30px rgba(202, 138, 4, 0.2);
             transform: translateY(-12px) scale(1.08);
         }
 
@@ -330,8 +413,8 @@
             padding: 2rem;
             backdrop-filter: blur(10px);
             box-shadow:
-                0 10px 40px rgba(0, 0, 0, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                    0 10px 40px rgba(0, 0, 0, 0.6),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .stat-group {
@@ -375,8 +458,8 @@
             border-radius: 15px;
             overflow: visible;
             box-shadow:
-                inset 0 4px 8px rgba(0, 0, 0, 0.6),
-                0 2px 10px rgba(0, 0, 0, 0.4);
+                    inset 0 4px 8px rgba(0, 0, 0, 0.6),
+                    0 2px 10px rgba(0, 0, 0, 0.4);
         }
 
         /* Metallic Bar Fill with Gradient */
@@ -387,9 +470,9 @@
             border-radius: 13px;
             transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow:
-                0 0 20px currentColor,
-                inset 0 2px 4px rgba(255, 255, 255, 0.3),
-                inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+                    0 0 20px currentColor,
+                    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+                    inset 0 -2px 4px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             will-change: width;
         }
@@ -402,10 +485,10 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2) 50%,
-                transparent
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    transparent
             );
         }
 
@@ -446,8 +529,8 @@
             background: linear-gradient(135deg, rgba(28, 25, 23, 0.9), rgba(68, 64, 60, 0.7));
             border: 3px solid rgba(202, 138, 4, 0.5);
             box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.8),
-                inset 0 0 40px rgba(202, 138, 4, 0.1);
+                    0 20px 60px rgba(0, 0, 0, 0.8),
+                    inset 0 0 40px rgba(202, 138, 4, 0.1);
             position: relative;
         }
 
@@ -485,9 +568,9 @@
             width: 100%;
             height: 35%;
             background: linear-gradient(180deg,
-                rgba(0, 119, 182, 0.5) 0%,
-                rgba(0, 84, 147, 0.7) 50%,
-                rgba(0, 59, 113, 0.9) 100%);
+            rgba(0, 119, 182, 0.5) 0%,
+            rgba(0, 84, 147, 0.7) 50%,
+            rgba(0, 59, 113, 0.9) 100%);
             z-index: 1;
             border-top: 3px solid rgba(0, 240, 255, 0.4);
         }
@@ -607,9 +690,9 @@
             border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
             transform: translateZ(0);
             box-shadow:
-                0 25px 70px rgba(0, 0, 0, 0.7),
-                inset 0 -25px 50px rgba(0, 0, 0, 0.4),
-                inset 0 15px 30px rgba(255, 255, 255, 0.5);
+                    0 25px 70px rgba(0, 0, 0, 0.7),
+                    inset 0 -25px 50px rgba(0, 0, 0, 0.4),
+                    inset 0 15px 30px rgba(255, 255, 255, 0.5);
             border: 3px solid #9CA3AF;
         }
 
@@ -637,9 +720,9 @@
             border-radius: 12px;
             transform: translateZ(20px);
             box-shadow:
-                0 8px 20px rgba(0, 0, 0, 0.6),
-                inset 0 -3px 8px rgba(0, 0, 0, 0.4),
-                inset 0 3px 8px rgba(255, 255, 255, 0.2);
+                    0 8px 20px rgba(0, 0, 0, 0.6),
+                    inset 0 -3px 8px rgba(0, 0, 0, 0.4),
+                    inset 0 3px 8px rgba(255, 255, 255, 0.2);
             border: 2px solid rgba(28, 25, 23, 0.8);
         }
 
@@ -655,9 +738,9 @@
             border-radius: 12px 12px 6px 6px;
             transform: translateZ(40px);
             box-shadow:
-                0 15px 40px rgba(0, 0, 0, 0.7),
-                inset 0 8px 15px rgba(255, 255, 255, 0.15),
-                inset 0 -8px 15px rgba(0, 0, 0, 0.3);
+                    0 15px 40px rgba(0, 0, 0, 0.7),
+                    inset 0 8px 15px rgba(255, 255, 255, 0.15),
+                    inset 0 -8px 15px rgba(0, 0, 0, 0.3);
             border: 2px solid rgba(202, 138, 4, 0.4);
             transition: all 0.6s ease;
         }
@@ -673,8 +756,8 @@
             background: linear-gradient(135deg, rgba(0, 240, 255, 0.6), rgba(0, 200, 255, 0.8));
             border-radius: 6px;
             box-shadow:
-                inset 0 0 15px rgba(0, 240, 255, 0.8),
-                0 0 20px rgba(0, 240, 255, 0.4);
+                    inset 0 0 15px rgba(0, 240, 255, 0.8),
+                    0 0 20px rgba(0, 240, 255, 0.4);
             border: 1px solid rgba(0, 240, 255, 0.5);
         }
 
@@ -728,9 +811,9 @@
             background: linear-gradient(135deg, #E5E7EB, #F9FAFB, #FFFFFF, #F9FAFB, #E5E7EB);
             border-radius: 40% 40% 30% 30%;
             box-shadow:
-                0 25px 70px rgba(0, 0, 0, 0.7),
-                inset 0 -25px 50px rgba(0, 0, 0, 0.4),
-                inset 0 15px 30px rgba(255, 255, 255, 0.5);
+                    0 25px 70px rgba(0, 0, 0, 0.7),
+                    inset 0 -25px 50px rgba(0, 0, 0, 0.4),
+                    inset 0 15px 30px rgba(255, 255, 255, 0.5);
             border: 3px solid #9CA3AF;
         }
 
@@ -782,8 +865,8 @@
             background: linear-gradient(180deg, #7C2D12, #DC2626, #EF4444);
             border: 3px solid #991B1B;
             box-shadow:
-                0 0 40px rgba(239, 68, 68, 0.8),
-                inset 0 -10px 20px rgba(255, 100, 100, 0.4);
+                    0 0 40px rgba(239, 68, 68, 0.8),
+                    inset 0 -10px 20px rgba(255, 100, 100, 0.4);
         }
 
         .boat-3d.thermique .boat-motor::before {
@@ -804,8 +887,8 @@
             background: linear-gradient(180deg, #0C4A6E, #0EA5E9, #38BDF8);
             border: 3px solid #075985;
             box-shadow:
-                0 0 40px rgba(14, 165, 233, 0.8),
-                inset 0 -10px 20px rgba(56, 189, 248, 0.4);
+                    0 0 40px rgba(14, 165, 233, 0.8),
+                    inset 0 -10px 20px rgba(56, 189, 248, 0.4);
         }
 
         .boat-3d.electrique .boat-motor::before {
@@ -826,8 +909,8 @@
             background: linear-gradient(180deg, #854D0E, #CA8A04, #EAB308);
             border: 3px solid #713F12;
             box-shadow:
-                0 0 40px rgba(234, 179, 8, 0.8),
-                inset 0 -10px 20px rgba(250, 204, 21, 0.4);
+                    0 0 40px rgba(234, 179, 8, 0.8),
+                    inset 0 -10px 20px rgba(250, 204, 21, 0.4);
         }
 
         .boat-3d.hybride .boat-motor::before {
@@ -922,39 +1005,479 @@
             50% { opacity: 0.85; transform: scale(1.02); }
         }
 
-        /* Responsive Adjustments */
+        /* Password Protection Overlay */
+        .password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .password-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .password-box {
+            background: linear-gradient(135deg, rgba(68, 64, 60, 0.8), rgba(28, 25, 23, 0.9));
+            border: 3px solid rgba(202, 138, 4, 0.5);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow:
+                    0 20px 60px rgba(0, 0, 0, 0.8),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .password-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 22px;
+            padding: 2px;
+            background: var(--holographic);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.3;
+            animation: holographicPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes holographicPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .password-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 20px rgba(202, 138, 4, 0.6));
+            animation: lockFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes lockFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .password-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-accent), var(--gold-shine));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 15px rgba(202, 138, 4, 0.5));
+            margin-bottom: 0.75rem;
+        }
+
+        .password-subtitle {
+            font-family: 'Noto Sans Arabic', sans-serif;
+            font-size: 0.95rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: 0.3em;
+            background: rgba(28, 25, 23, 0.6);
+            border: 2px solid rgba(202, 138, 4, 0.4);
+            border-radius: 12px;
+            color: var(--gold-light);
+            outline: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .password-input:focus {
+            border-color: var(--gold-accent);
+            box-shadow:
+                    0 0 20px rgba(202, 138, 4, 0.4),
+                    inset 0 0 10px rgba(202, 138, 4, 0.1);
+            background: rgba(28, 25, 23, 0.8);
+        }
+
+        .password-input::placeholder {
+            color: rgba(253, 224, 71, 0.3);
+            letter-spacing: 0.1em;
+        }
+
+        .password-submit {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            background: linear-gradient(135deg, var(--gold-accent), var(--gold-light));
+            border: none;
+            border-radius: 12px;
+            color: var(--primary-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(202, 138, 4, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .password-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .password-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(202, 138, 4, 0.5);
+        }
+
+        .password-submit:hover::before {
+            left: 100%;
+        }
+
+        .password-submit:active {
+            transform: translateY(0);
+        }
+
+        .password-error {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            border-radius: 8px;
+            color: #FCA5A5;
+            font-family: 'Noto Sans Arabic', sans-serif;
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+            display: none;
+            animation: shake 0.5s ease;
+        }
+
+        .password-error.show {
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Responsive password box */
         @media (max-width: 768px) {
-            .main-title {
-                font-size: 2rem;
+            .password-box {
+                padding: 2rem 1.5rem;
             }
 
-            .section-panel {
-                padding: 1.5rem;
+            .password-icon {
+                font-size: 3rem;
+                margin-bottom: 1rem;
             }
 
-            .choice-grid {
-                gap: 0.75rem;
+            .password-title {
+                font-size: 1.4rem;
+            }
+
+            .password-subtitle {
+                font-size: 0.85rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .password-input {
+                padding: 0.875rem 1.25rem;
+                font-size: 1rem;
+            }
+
+            .password-submit {
+                padding: 0.875rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Responsive Adjustments */
+
+        /* Tablette (768px - 1024px) */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .container {
+                padding: 0 1.5rem 3rem;
+            }
+
+            .grid-layout {
+                gap: 1.5rem;
             }
 
             .viewer-wrapper {
-                height: 400px;
+                height: 500px;
+            }
+
+            .boat-3d {
+                width: 350px;
+                height: 250px;
+            }
+        }
+
+        /* Mobile & Petite Tablette (320px - 768px) */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1.5rem 1rem 1rem;
+            }
+
+            .main-title {
+                font-size: clamp(1.8rem, 8vw, 2.5rem);
+                letter-spacing: 0.1em;
+            }
+
+            .subtitle {
+                font-size: clamp(0.8rem, 2vw, 1rem);
+                letter-spacing: 0.15em;
+            }
+
+            .container {
+                padding: 0 0.75rem 2rem;
+            }
+
+            .grid-layout {
+                gap: 1rem;
+            }
+
+            .section-panel {
+                padding: 1.25rem;
+                border-radius: 16px;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            .choice-label {
+                font-size: 0.8rem;
+                margin-top: 1rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .choice-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+            }
+
+            .choice-card {
+                padding: 1rem 0.5rem;
+                border-radius: 12px;
+                min-height: 100px;
+            }
+
+            .choice-icon {
+                font-size: 2.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .choice-name {
+                font-size: 0.75rem;
+                letter-spacing: 0.02em;
+            }
+
+            /* Stats adaptées */
+            .stats-panel {
+                padding: 1.25rem;
+            }
+
+            .stat-label {
+                font-size: 0.85rem;
+            }
+
+            .stat-value {
+                font-size: 1rem;
+            }
+
+            .bar-container {
+                height: 24px;
+            }
+
+            /* Viewer 3D mobile */
+            .viewer-wrapper {
+                height: 350px;
+                border-radius: 12px;
+            }
+
+            .boat-3d {
+                width: 280px;
+                height: 200px;
+            }
+
+            .boat-hull {
+                height: 120px;
+            }
+
+            .boat-deck {
+                height: 20px;
+                bottom: 140px;
+            }
+
+            .boat-cabin {
+                width: 100px;
+                height: 70px;
+                bottom: 160px;
+                margin-left: -50px;
+            }
+
+            .boat-motor {
+                width: 60px;
+                height: 80px;
+                margin-left: -30px;
+            }
+
+            .boat-equipment {
+                width: 45px;
+                height: 45px;
+                font-size: 2rem;
+                bottom: 230px;
+                margin-left: -22.5px;
+            }
+
+            .boat-status-alert {
+                font-size: 0.85rem;
+                padding: 0.75rem;
+                margin-top: 0.75rem;
+            }
+
+            .viewer-hint {
+                font-size: 0.75rem;
+                margin-top: 0.75rem;
+            }
+
+            /* Catamaran mobile */
+            .boat-3d.catamaran .boat-hull {
+                height: 100px;
+            }
+
+            .boat-3d.catamaran .boat-cabin {
+                width: 140px;
+                height: 80px;
+                margin-left: -70px;
+            }
+
+            /* Semi-rigide mobile */
+            .boat-3d.semirigide .boat-hull {
+                height: 90px;
+            }
+
+            .boat-3d.semirigide .boat-cabin {
+                width: 70px;
+                height: 55px;
+                margin-left: -35px;
+                bottom: 130px;
+            }
+        }
+
+        /* Très petit mobile (320px - 480px) */
+        @media (max-width: 480px) {
+            .choice-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.4rem;
+            }
+
+            .choice-card {
+                padding: 0.75rem 0.25rem;
+                min-height: 90px;
+            }
+
+            .choice-icon {
+                font-size: 2rem;
+            }
+
+            .choice-name {
+                font-size: 0.65rem;
+            }
+
+            .viewer-wrapper {
+                height: 300px;
+            }
+
+            .boat-3d {
+                width: 240px;
+                height: 180px;
+            }
+
+            .ocean-surface {
+                height: 40%;
             }
         }
 
         /* Reduced Motion Support */
         @media (prefers-reduced-motion: reduce) {
-            * {
+            *,
+            *::before,
+            *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
 
+            .wave,
+            .boat-3d,
             body::after {
-                animation: none;
+                animation: none !important;
+            }
+        }
+
+        /* Performance mobile : désactiver certaines animations complexes */
+        @media (max-width: 768px) {
+            .wave {
+                animation-duration: 12s;
             }
 
-            .choice-card.selected::after {
-                animation: none;
+            .boat-3d.sailing {
+                animation: boatFloat 3s ease-in-out infinite;
+            }
+
+            @keyframes boatFloat {
+                0%, 100% { transform: rotateY(330deg) rotateX(15deg) translateY(20px); }
+                50% { transform: rotateY(330deg) rotateX(15deg) translateY(10px); }
+            }
+
+            /* Simplifier les animations de moteur sur mobile */
+            .boat-3d.thermique .boat-motor::before,
+            .boat-3d.electrique .boat-motor::before,
+            .boat-3d.hybride .boat-motor::before {
+                animation-duration: 0.8s;
             }
         }
 
@@ -972,285 +1495,396 @@
 </head>
 <body>
 
-    <header class="header">
-        <h1 class="main-title">Elite Rescue Fleet</h1>
-        <p class="subtitle">Configurateur Avancé</p>
-    </header>
-
-    <div class="container">
-        <div class="grid-layout">
-
-            <!-- Left Column: Configuration + Stats -->
-            <div>
-                <!-- Configuration Panel -->
-                <div class="section-panel">
-                    <h2 class="section-title">⚡ Arsenal de Sauvetage</h2>
-
-                    <label class="choice-label">Type de Châssis (Coque)</label>
-                    <div class="choice-grid" id="coque">
-                        <div class="choice-card" data-value="standard">
-                            <div class="choice-icon">🚤</div>
-                            <span class="choice-name">Standard</span>
-                        </div>
-                        <div class="choice-card" data-value="catamaran">
-                            <div class="choice-icon">⛵</div>
-                            <span class="choice-name">Catamaran</span>
-                        </div>
-                        <div class="choice-card" data-value="semirigide">
-                            <div class="choice-icon">🛥️</div>
-                            <span class="choice-name">Zodiac</span>
-                        </div>
-                    </div>
-
-                    <label class="choice-label">Propulsion</label>
-                    <div class="choice-grid" id="moteur">
-                        <div class="choice-card" data-value="thermique">
-                            <div class="choice-icon">⛽</div>
-                            <span class="choice-name">Thermique V8</span>
-                        </div>
-                        <div class="choice-card" data-value="electrique">
-                            <div class="choice-icon">⚡</div>
-                            <span class="choice-name">Électrique</span>
-                        </div>
-                        <div class="choice-card" data-value="hybride">
-                            <div class="choice-icon">🔋</div>
-                            <span class="choice-name">Hybride</span>
-                        </div>
-                    </div>
-
-                    <label class="choice-label">Module Spécial</label>
-                    <div class="choice-grid" id="equipement">
-                        <div class="choice-card" data-value="filet">
-                            <div class="choice-icon">🕸️</div>
-                            <span class="choice-name">Filet Auto</span>
-                        </div>
-                        <div class="choice-card" data-value="grue">
-                            <div class="choice-icon">🏗️</div>
-                            <span class="choice-name">Grue Lourde</span>
-                        </div>
-                        <div class="choice-card" data-value="drone">
-                            <div class="choice-icon">🚁</div>
-                            <span class="choice-name">Drone Radar</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Stats Panel -->
-                <div class="section-panel stats-panel" style="margin-top: 2rem;">
-                    <h2 class="section-title">📊 Performances</h2>
-
-                    <div class="stat-group">
-                        <div class="stat-header">
-                            <span class="stat-label">Vitesse Max</span>
-                            <span class="stat-value" id="val-vitesse">0</span>
-                        </div>
-                        <div class="bar-container">
-                            <div class="bar-fill" id="bar-vitesse"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-group">
-                        <div class="stat-header">
-                            <span class="stat-label">Stabilité</span>
-                            <span class="stat-value" id="val-stabilite">0</span>
-                        </div>
-                        <div class="bar-container">
-                            <div class="bar-fill" id="bar-stabilite"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-group">
-                        <div class="stat-header">
-                            <span class="stat-label">Autonomie</span>
-                            <span class="stat-value" id="val-autonomie">0</span>
-                        </div>
-                        <div class="bar-container">
-                            <div class="bar-fill" id="bar-autonomie"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-group">
-                        <div class="stat-header">
-                            <span class="stat-label">Capacité</span>
-                            <span class="stat-value" id="val-capacite">0</span>
-                        </div>
-                        <div class="bar-container">
-                            <div class="bar-fill" id="bar-capacite"></div>
-                        </div>
-                    </div>
-                </div>
+<!-- Password Protection Overlay -->
+<div class="password-overlay" id="passwordOverlay">
+    <div class="password-box">
+        <div class="password-icon">🔐</div>
+        <h2 class="password-title">Accès Sécurisé</h2>
+        <p class="password-subtitle">Zone Réservée - Hackathon 2026</p>
+        <form id="passwordForm" onsubmit="return false;">
+            <div class="password-input-wrapper">
+                <input
+                        type="password"
+                        id="passwordInput"
+                        class="password-input"
+                        placeholder="Mot de passe"
+                        autocomplete="off"
+                        required
+                />
             </div>
-
-            <!-- Right Column: 3D Viewer -->
-            <div class="section-panel viewer-panel">
-                <h2 class="section-title">🕶️ Aperçu 3D</h2>
-                <div class="viewer-wrapper">
-                    <div class="boat-3d-container">
-                        <!-- Ocean Surface -->
-                        <div class="ocean-surface">
-                            <div class="wave"></div>
-                            <div class="wave"></div>
-                        </div>
-                        <!-- Boat -->
-                        <div class="boat-3d standard thermique sailing" id="boat-3d">
-                            <div class="boat-hull"></div>
-                            <div class="boat-deck"></div>
-                            <div class="boat-cabin"></div>
-                            <div class="boat-motor"></div>
-                            <div class="boat-equipment filet"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="boat-status-alert success" id="boat-status">
-                    ✅ Configuration stable - Navigation en cours
-                </div>
-                <p class="viewer-hint">✨ Stabilité ≥35: Navigue | 25-34: Instable | &lt;25: Coule</p>
+            <button type="submit" class="password-submit">
+                🚀 Accéder
+            </button>
+            <div class="password-error" id="passwordError">
+                ⚠️ Mot de passe incorrect. Réessayez.
             </div>
-
-        </div>
+        </form>
     </div>
+</div>
 
-    <script>
-        // Data structure (unchanged)
-        const data = {
-            coque: {
-                standard:   { vitesse: 50, stabilite: 50, autonomie: 40, capacite: 50 },
-                catamaran:  { vitesse: 35, stabilite: 85, autonomie: 30, capacite: 70 },
-                semirigide: { vitesse: 75, stabilite: 30, autonomie: 35, capacite: 30 }
-            },
-            moteur: {
-                thermique:  { vitesse: 20, stabilite: -5,  autonomie: 40, capacite: 0 },
-                electrique: { vitesse: -10, stabilite: 10,  autonomie: -15, capacite: 5 },
-                hybride:    { vitesse: 5,  stabilite: 0,   autonomie: 20, capacite: 0 }
-            },
-            equipement: {
-                filet:      { vitesse: 0,   stabilite: 0,   autonomie: 0,   capacite: 10 },
-                grue:       { vitesse: -15, stabilite: -15, autonomie: -10, capacite: 20 },
-                drone:      { vitesse: -5,  stabilite: 0,   autonomie: -5,  capacite: 5 }
-            }
-        };
+<header class="header">
+    <button class="logout-btn" id="logoutBtn" onclick="logout()">
+        🔓 Déconnexion
+    </button>
+    <h1 class="main-title">Elite Rescue Fleet</h1>
+    <p class="subtitle">Configurateur Avancé</p>
+</header>
 
-        function updateBoatAndStats() {
-            const coqueChoice = document.querySelector('#coque .selected')?.dataset.value;
-            const moteurChoice = document.querySelector('#moteur .selected')?.dataset.value;
-            const equipementChoice = document.querySelector('#equipement .selected')?.dataset.value;
+<div class="container">
+    <div class="grid-layout">
 
-            if (!coqueChoice || !moteurChoice || !equipementChoice) return;
+        <!-- Left Column: Configuration + Stats -->
+        <div>
+            <!-- Configuration Panel -->
+            <div class="section-panel">
+                <h2 class="section-title">⚡ Arsenal de Sauvetage</h2>
 
-            // Calculate all stats first
-            const stats = ['vitesse', 'stabilite', 'autonomie', 'capacite'];
-            const calculatedStats = {};
+                <label class="choice-label">Type de Châssis (Coque)</label>
+                <div class="choice-grid" id="coque">
+                    <div class="choice-card" data-value="standard">
+                        <div class="choice-icon">🚤</div>
+                        <span class="choice-name">Standard</span>
+                    </div>
+                    <div class="choice-card" data-value="catamaran">
+                        <div class="choice-icon">⛵</div>
+                        <span class="choice-name">Catamaran</span>
+                    </div>
+                    <div class="choice-card" data-value="semirigide">
+                        <div class="choice-icon">🛥️</div>
+                        <span class="choice-name">Zodiac</span>
+                    </div>
+                </div>
 
-            stats.forEach(stat => {
-                let total = data.coque[coqueChoice][stat] +
-                            data.moteur[moteurChoice][stat] +
-                            data.equipement[equipementChoice][stat];
+                <label class="choice-label">Propulsion</label>
+                <div class="choice-grid" id="moteur">
+                    <div class="choice-card" data-value="thermique">
+                        <div class="choice-icon">⛽</div>
+                        <span class="choice-name">Thermique V8</span>
+                    </div>
+                    <div class="choice-card" data-value="electrique">
+                        <div class="choice-icon">⚡</div>
+                        <span class="choice-name">Électrique</span>
+                    </div>
+                    <div class="choice-card" data-value="hybride">
+                        <div class="choice-icon">🔋</div>
+                        <span class="choice-name">Hybride</span>
+                    </div>
+                </div>
 
-                total = Math.max(0, Math.min(100, total));
-                calculatedStats[stat] = total;
+                <label class="choice-label">Module Spécial</label>
+                <div class="choice-grid" id="equipement">
+                    <div class="choice-card" data-value="filet">
+                        <div class="choice-icon">🕸️</div>
+                        <span class="choice-name">Filet Auto</span>
+                    </div>
+                    <div class="choice-card" data-value="grue">
+                        <div class="choice-icon">🏗️</div>
+                        <span class="choice-name">Grue Lourde</span>
+                    </div>
+                    <div class="choice-card" data-value="drone">
+                        <div class="choice-icon">🚁</div>
+                        <span class="choice-name">Drone Radar</span>
+                    </div>
+                </div>
+            </div>
 
-                const barElement = document.getElementById(`bar-${stat}`);
-                const valueElement = document.getElementById(`val-${stat}`);
+            <!-- Stats Panel -->
+            <div class="section-panel stats-panel" style="margin-top: 2rem;">
+                <h2 class="section-title">📊 Performances</h2>
 
-                // Animate value counter
-                const currentValue = parseInt(valueElement.textContent) || 0;
-                animateValue(valueElement, currentValue, total, 500);
+                <div class="stat-group">
+                    <div class="stat-header">
+                        <span class="stat-label">Vitesse Max</span>
+                        <span class="stat-value" id="val-vitesse">0</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="bar-vitesse"></div>
+                    </div>
+                </div>
 
-                // Animate bar width
-                setTimeout(() => {
-                    barElement.style.width = `${total}%`;
-                }, 50);
-            });
+                <div class="stat-group">
+                    <div class="stat-header">
+                        <span class="stat-label">Stabilité</span>
+                        <span class="stat-value" id="val-stabilite">0</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="bar-stabilite"></div>
+                    </div>
+                </div>
 
-            // Update 3D Boat visualization
-            const boat3D = document.getElementById('boat-3d');
-            const boatEquipment = boat3D.querySelector('.boat-equipment');
-            const boatStatus = document.getElementById('boat-status');
+                <div class="stat-group">
+                    <div class="stat-header">
+                        <span class="stat-label">Autonomie</span>
+                        <span class="stat-value" id="val-autonomie">0</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="bar-autonomie"></div>
+                    </div>
+                </div>
 
-            // Update hull type
-            boat3D.className = `boat-3d ${coqueChoice} ${moteurChoice}`;
+                <div class="stat-group">
+                    <div class="stat-header">
+                        <span class="stat-label">Capacité</span>
+                        <span class="stat-value" id="val-capacite">0</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="bar-capacite"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            // Update equipment
-            boatEquipment.className = `boat-equipment ${equipementChoice}`;
+        <!-- Right Column: 3D Viewer -->
+        <div class="section-panel viewer-panel">
+            <h2 class="section-title">🕶️ Aperçu 3D</h2>
+            <div class="viewer-wrapper">
+                <div class="boat-3d-container">
+                    <!-- Ocean Surface -->
+                    <div class="ocean-surface">
+                        <div class="wave"></div>
+                        <div class="wave"></div>
+                    </div>
+                    <!-- Boat -->
+                    <div class="boat-3d standard thermique sailing" id="boat-3d">
+                        <div class="boat-hull"></div>
+                        <div class="boat-deck"></div>
+                        <div class="boat-cabin"></div>
+                        <div class="boat-motor"></div>
+                        <div class="boat-equipment filet"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="boat-status-alert success" id="boat-status">
+                ✅ Configuration stable - Navigation en cours
+            </div>
+            <p class="viewer-hint">✨ Stabilité ≥35: Navigue | 25-34: Instable | &lt;25: Coule</p>
+        </div>
 
-            // Check stability and update boat behavior
-            const stabilite = calculatedStats.stabilite;
+    </div>
+</div>
 
-            // Reset classes first
-            boat3D.classList.remove('sailing', 'sinking', 'unstable');
-            boatStatus.className = 'boat-status-alert';
+<script>
+    // Password Protection System
+    const CORRECT_PASSWORD = 'Hackaton2026';
+    const PASSWORD_STORAGE_KEY = 'eliteRescueAccess';
 
-            if (stabilite < 15) {
-                // Critical: Boat sinks immediately
-                boat3D.classList.add('sinking');
-                boatStatus.classList.add('danger');
-                boatStatus.innerHTML = `🚨 DANGER CRITIQUE ! Stabilité: ${stabilite} - Le bateau coule !`;
-            } else if (stabilite < 25) {
-                // Warning: Boat is unstable and will sink
-                boat3D.classList.add('sinking');
-                boatStatus.classList.add('danger');
-                boatStatus.innerHTML = `⚠️ TROP INSTABLE ! Stabilité: ${stabilite} - Le bateau coule...`;
-            } else if (stabilite < 35) {
-                // Unstable but floating
-                boat3D.classList.add('unstable');
-                boatStatus.classList.add('warning');
-                boatStatus.innerHTML = `⚠️ ATTENTION ! Stabilité: ${stabilite} - Configuration instable`;
-            } else {
-                // Good configuration - sailing
-                boat3D.classList.add('sailing');
-                boatStatus.classList.add('success');
-                boatStatus.innerHTML = `✅ STABLE ! Stabilité: ${stabilite} - Navigation en cours`;
-            }
+    function checkPassword() {
+        const savedPassword = sessionStorage.getItem(PASSWORD_STORAGE_KEY);
+        if (savedPassword === CORRECT_PASSWORD) {
+            unlockContent();
+        }
+    }
+
+    function unlockContent() {
+        const overlay = document.getElementById('passwordOverlay');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        document.body.classList.add('unlocked');
+        overlay.classList.add('hidden');
+
+        // Afficher le bouton de déconnexion
+        if (logoutBtn) {
+            logoutBtn.classList.add('show');
         }
 
-        function animateValue(element, start, end, duration) {
-            const range = end - start;
-            const increment = range / (duration / 16);
-            let current = start;
+        setTimeout(() => {
+            overlay.style.display = 'none';
+        }, 500);
+    }
 
-            const timer = setInterval(() => {
-                current += increment;
-                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
-                    current = end;
-                    clearInterval(timer);
-                }
-                element.textContent = Math.round(current);
-            }, 16);
+    function logout() {
+        // Supprimer le mot de passe du sessionStorage
+        sessionStorage.removeItem(PASSWORD_STORAGE_KEY);
+
+        // Recharger la page pour revenir à l'écran de connexion
+        window.location.reload();
+    }
+
+    function handlePasswordSubmit() {
+        const input = document.getElementById('passwordInput');
+        const errorDiv = document.getElementById('passwordError');
+        const password = input.value.trim();
+
+        if (password === CORRECT_PASSWORD) {
+            sessionStorage.setItem(PASSWORD_STORAGE_KEY, password);
+            errorDiv.classList.remove('show');
+            unlockContent();
+        } else {
+            errorDiv.classList.add('show');
+            input.value = '';
+            input.focus();
+
+            setTimeout(() => {
+                errorDiv.classList.remove('show');
+            }, 3000);
         }
+    }
 
-        function setupChoiceListeners() {
-            const choiceGrids = document.querySelectorAll('.choice-grid');
-            choiceGrids.forEach(grid => {
-                // Select first card by default
-                const firstCard = grid.firstElementChild;
-                if (firstCard) {
-                    firstCard.classList.add('selected');
-                }
+    // Event listeners pour le formulaire de mot de passe
+    document.addEventListener('DOMContentLoaded', () => {
+        checkPassword();
 
-                // Add click listeners
-                grid.addEventListener('click', (event) => {
-                    const clickedCard = event.target.closest('.choice-card');
-                    if (!clickedCard) return;
+        const form = document.getElementById('passwordForm');
+        const input = document.getElementById('passwordInput');
 
-                    // Remove selection from siblings
-                    const siblings = grid.querySelectorAll('.choice-card');
-                    siblings.forEach(card => card.classList.remove('selected'));
-
-                    // Add selection to clicked card
-                    clickedCard.classList.add('selected');
-
-                    // Update boat and stats
-                    updateBoatAndStats();
-                });
-            });
-        }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            setupChoiceListeners();
-            updateBoatAndStats();
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handlePasswordSubmit();
         });
-    </script>
+
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handlePasswordSubmit();
+            }
+        });
+
+        // Focus automatique sur l'input
+        setTimeout(() => {
+            input.focus();
+        }, 100);
+    });
+
+    // Data structure (unchanged)
+    const data = {
+        coque: {
+            standard:   { vitesse: 50, stabilite: 50, autonomie: 40, capacite: 50 },
+            catamaran:  { vitesse: 35, stabilite: 85, autonomie: 30, capacite: 70 },
+            semirigide: { vitesse: 75, stabilite: 30, autonomie: 35, capacite: 30 }
+        },
+        moteur: {
+            thermique:  { vitesse: 20, stabilite: -5,  autonomie: 40, capacite: 0 },
+            electrique: { vitesse: -10, stabilite: 10,  autonomie: -15, capacite: 5 },
+            hybride:    { vitesse: 5,  stabilite: 0,   autonomie: 20, capacite: 0 }
+        },
+        equipement: {
+            filet:      { vitesse: 0,   stabilite: 0,   autonomie: 0,   capacite: 10 },
+            grue:       { vitesse: -15, stabilite: -15, autonomie: -10, capacite: 20 },
+            drone:      { vitesse: -5,  stabilite: 0,   autonomie: -5,  capacite: 5 }
+        }
+    };
+
+    function updateBoatAndStats() {
+        const coqueChoice = document.querySelector('#coque .selected')?.dataset.value;
+        const moteurChoice = document.querySelector('#moteur .selected')?.dataset.value;
+        const equipementChoice = document.querySelector('#equipement .selected')?.dataset.value;
+
+        if (!coqueChoice || !moteurChoice || !equipementChoice) return;
+
+        // Calculate all stats first
+        const stats = ['vitesse', 'stabilite', 'autonomie', 'capacite'];
+        const calculatedStats = {};
+
+        stats.forEach(stat => {
+            let total = data.coque[coqueChoice][stat] +
+                data.moteur[moteurChoice][stat] +
+                data.equipement[equipementChoice][stat];
+
+            total = Math.max(0, Math.min(100, total));
+            calculatedStats[stat] = total;
+
+            const barElement = document.getElementById(`bar-${stat}`);
+            const valueElement = document.getElementById(`val-${stat}`);
+
+            // Animate value counter
+            const currentValue = parseInt(valueElement.textContent) || 0;
+            animateValue(valueElement, currentValue, total, 500);
+
+            // Animate bar width
+            setTimeout(() => {
+                barElement.style.width = `${total}%`;
+            }, 50);
+        });
+
+        // Update 3D Boat visualization
+        const boat3D = document.getElementById('boat-3d');
+        const boatEquipment = boat3D.querySelector('.boat-equipment');
+        const boatStatus = document.getElementById('boat-status');
+
+        // Update hull type
+        boat3D.className = `boat-3d ${coqueChoice} ${moteurChoice}`;
+
+        // Update equipment
+        boatEquipment.className = `boat-equipment ${equipementChoice}`;
+
+        // Check stability and update boat behavior
+        const stabilite = calculatedStats.stabilite;
+
+        // Reset classes first
+        boat3D.classList.remove('sailing', 'sinking', 'unstable');
+        boatStatus.className = 'boat-status-alert';
+
+        if (stabilite < 15) {
+            // Critical: Boat sinks immediately
+            boat3D.classList.add('sinking');
+            boatStatus.classList.add('danger');
+            boatStatus.innerHTML = `🚨 DANGER CRITIQUE ! Stabilité: ${stabilite} - Le bateau coule !`;
+        } else if (stabilite < 25) {
+            // Warning: Boat is unstable and will sink
+            boat3D.classList.add('sinking');
+            boatStatus.classList.add('danger');
+            boatStatus.innerHTML = `⚠️ TROP INSTABLE ! Stabilité: ${stabilite} - Le bateau coule...`;
+        } else if (stabilite < 35) {
+            // Unstable but floating
+            boat3D.classList.add('unstable');
+            boatStatus.classList.add('warning');
+            boatStatus.innerHTML = `⚠️ ATTENTION ! Stabilité: ${stabilite} - Configuration instable`;
+        } else {
+            // Good configuration - sailing
+            boat3D.classList.add('sailing');
+            boatStatus.classList.add('success');
+            boatStatus.innerHTML = `✅ STABLE ! Stabilité: ${stabilite} - Navigation en cours`;
+        }
+    }
+
+    function animateValue(element, start, end, duration) {
+        const range = end - start;
+        const increment = range / (duration / 16);
+        let current = start;
+
+        const timer = setInterval(() => {
+            current += increment;
+            if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                current = end;
+                clearInterval(timer);
+            }
+            element.textContent = Math.round(current);
+        }, 16);
+    }
+
+    function setupChoiceListeners() {
+        const choiceGrids = document.querySelectorAll('.choice-grid');
+        choiceGrids.forEach(grid => {
+            // Select first card by default
+            const firstCard = grid.firstElementChild;
+            if (firstCard) {
+                firstCard.classList.add('selected');
+            }
+
+            // Add click listeners
+            grid.addEventListener('click', (event) => {
+                const clickedCard = event.target.closest('.choice-card');
+                if (!clickedCard) return;
+
+                // Remove selection from siblings
+                const siblings = grid.querySelectorAll('.choice-card');
+                siblings.forEach(card => card.classList.remove('selected'));
+
+                // Add selection to clicked card
+                clickedCard.classList.add('selected');
+
+                // Update boat and stats
+                updateBoatAndStats();
+            });
+        });
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        setupChoiceListeners();
+        updateBoatAndStats();
+    });
+</script>
 
 </body>
 </html>
